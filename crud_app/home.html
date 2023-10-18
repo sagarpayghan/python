@@ -1,0 +1,64 @@
+
+{% extends 'crud_app/base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+<h1 class="text-center alert alert-danger mt-3">CRUD OPERATION</h1>
+<div class="row">
+    <div class="col-sm-4">
+        <h4 class="text-center alert alert-info mt-1">ADD</h4>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Add" class="btn btn-success">
+        </form>
+    </div>
+    <div class="col-sm-7 offset-1">
+        <h4 class="text-center alert alert-info mt-1">VIEW/EDIT</h4>
+        {% if stu %}
+        
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PASSWORD</th>
+                <th scope="col">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for st in stu  %}
+              <tr>
+                <th scope="row">{{st.id}}</th>
+                <td>{{st.name}}</td>
+                <td>{{st.email}}</td>
+                <td>{{st.password}}</td>
+                <td>
+                    <a href="{% url 'update_data' st.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{% url 'delete_data' st.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                    </form>
+                </td>
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+       
+        {% else %}
+        <h5 class="text-center alert alert-info mt-1">NO DATA</h5>
+        {% endif %}
+    </div>
+
+</div>
+
+</div>
+
+
+
+{% endblock content %}
